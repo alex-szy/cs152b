@@ -5,7 +5,7 @@
 // 
 // Create Date: 04/01/2026 10:26:04 AM
 // Design Name: 
-// Module Name: my_counter_tb
+// Module Name: counter_tb
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -21,7 +21,7 @@
 
 `timescale 1ns / 1ps
 
-module my_counter_tb;
+module counter_tb;
     reg clk;
     reg rst;
     wire [3:0] count;
