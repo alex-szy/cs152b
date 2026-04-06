@@ -1,10 +1,11 @@
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
 // 
-// Create Date: 04/03/2026 01:41:51 PM
+// Create Date: 04/06/2026 11:17:55 AM
 // Design Name: 
-// Module Name: alu
+// Module Name: adder_16bit_tb
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -18,12 +19,20 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module alu (
-    input [15:0] A,
-    input [15:0] B,
-    input [3:0] ALUCtrl,
-    output [15:0] S,
-    output zero,
-    output overflow
-    );
+`timescale 1ns / 1ps
+
+module adder_16bit_tb;
+    reg clk;
+    reg [15:0] A;
+    reg [15:0] B;
+    reg [15:0] S;
+    reg overflow;
+    reg zero;
+    
+    always #10 clk <= ~clk;
+    
+    adder_16bit adder {
+        .
+    };
+    
 endmodule
