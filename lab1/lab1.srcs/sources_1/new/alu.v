@@ -26,4 +26,14 @@ module alu (
     output zero,
     output overflow
     );
+
+    wire [15:0] aggregated_outputs;
+
+    genvar i;
+    generate
+        for (i = 0; i < 16; i = i + 1) begin
+            and (aggregated_outputs[i], #todo);
+            mux_4bit mux(aggregated_outputs[i], ALUCtrl, output[i]);
+        end
+    endgenerate
 endmodule
