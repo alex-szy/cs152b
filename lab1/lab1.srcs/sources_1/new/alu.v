@@ -21,6 +21,11 @@
 
 
 module alu(
-
+    input [15:0] A,
+    input [15:0] B,
+    input [3:0] ALUCtrl,
+    output [15:0] S,
+    output zero,
+    output overflow,
     );
 endmodule
