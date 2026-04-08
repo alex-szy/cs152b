@@ -29,6 +29,7 @@ module adder_16bit(
     );
     
     wire C_out[15:0];
+    wire xnor_out, xor_out;
  
     full_adder_1bit u0(A[0], B[0], 0, S[0], C_out[0]);
     genvar i;
@@ -38,9 +39,14 @@ module adder_16bit(
         end
     endgenerate
     
-    assign overflow = C_out[15];
-    and(zero, S[0], S[1], S[2], S[3], S[4], S[5], S[6], S[7], S[8], S[9], S[10], S[11], S[12], S[13], S[14], S[15]);
-
+    // Zero flag by NOR-ing all bits of the output
+    nor(zero, S[0], S[1], S[2], S[3], S[4], S[5], S[6], S[7], S[8], S[9], S[10], S[11], S[12], S[13], S[14], S[15]);
+    
+    // Overflow flag (use a logic table)
+    xnor(xnor_out, A[15], B[15]);
+    xor(xor_out, A[15], S[15]);
+    and(overflow, xnor_out, xor_out);
+    
 endmodule
 
 module full_adder_1bit(
