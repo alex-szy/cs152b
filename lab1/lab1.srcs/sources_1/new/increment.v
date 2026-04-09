@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 04/08/2026 06:27:53 PM
+// Create Date: 04/08/2026 10:35:14 PM
 // Design Name: 
-// Module Name: inversion
+// Module Name: increment
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,19 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module inversion(
+module increment(
     output [15:0] S,
     output overflow,
     input [15:0] A
     );
     
-    wire [15:0] A_bar;
-    
-    not (A_bar, A);
-    
-    increment inc (
-        .A(A_bar),
+    adder_16bit increment (
         .S(S),
-        .overflow(overflow)
+        .overflow(overflow),
+        .A(A),
+        .B(16'b1)
     );
 endmodule
