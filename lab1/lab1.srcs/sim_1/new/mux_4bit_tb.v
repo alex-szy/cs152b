@@ -26,25 +26,23 @@
         end
 
 module mux_4bit_tb;
-    reg clk;
-    reg [15:0] inputs = 0;
+    reg [15:0] inputs = 16'hAAAA;
+    reg [3:0] select = 0;
     wire out;
     
     integer i;
 
-    always #10 clk <= ~clk;
     
     mux_4bit mux (
         .inputs(inputs),
+        .select(select),
         .out(out)
     );
     
     initial begin
-        clk = 0;
-        
-        for (i = 0; i < 10; i = i + 1) begin
-            #20
-            
+        for (i = 0; i < 8; i = i + 1) begin
+            #1
+            select = select + 1;
         end
     end
 endmodule
