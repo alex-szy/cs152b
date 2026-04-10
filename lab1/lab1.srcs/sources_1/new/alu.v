@@ -40,7 +40,7 @@ module alu (
 
     genvar i, j;
     
-    // The ith mux takes the ith  bit of every output
+    // The ith mux takes the ith bit of every output
     generate
         for (i = 0; i < 16; i = i + 1) begin
             for (j = 0; j < 16; j = j + 1) begin
