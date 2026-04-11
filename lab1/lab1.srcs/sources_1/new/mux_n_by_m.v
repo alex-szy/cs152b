@@ -50,13 +50,13 @@ module mux_n_by_m #(M=16, N=4) (
             mux_n_by_m #(.N(N-1), .M(M)) upper_mux (
                 .inputs(inputs[M*(2**N)-1:M*(2**(N-1))]),
                 .select(select[N-2:0]),
-                .out(res[1])
+                .out(res[M*2-1:M])
             );
             
             mux_n_by_m #(.N(N-1), .M(M)) lower_mux (
                 .inputs(inputs[M*(2**(N-1))-1:0]),
                 .select(select[N-2:0]),
-                .out(res[0])
+                .out(res[M-1:0])
             );
             
             and mask_upper [M-1:0] (masked_res[M*2-1:M], res[M*2-1:M], select[N-1]);

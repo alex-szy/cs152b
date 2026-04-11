@@ -27,13 +27,13 @@
         end
 
 module mux_nbit_tb;
-    reg [15:0] inputs = 16'hAAAA;
+    reg [16*4-1:0] inputs = 64'hFEDCBA9876543210;
     reg [3:0] select = 0;
-    wire out;
+    wire [3:0] out;
     
     integer i;
     
-    mux_n_by_m #(.N(4), .M(1)) mux (
+    mux_n_by_m #(.N(4), .M(4)) mux (
         .inputs(inputs),
         .select(select),
         .out(out)
