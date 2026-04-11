@@ -26,26 +26,40 @@ module mux_nbit #(N=4) (
     output out
     );
 
-    wire [2**N-1:0] select_one_hot;
-    wire [N-1:0] select_b;
-    wire [2**N-1:0] input_one_hot;
-
-    not select_not [N-1:0] (select_b, select);
-    
-    genvar i, j;
+    // Recursive mux implementation
     generate
-        for (i=0; i<2**N; i=i+1) begin
-            for (j=0; j<N; j=j+1) begin
-                and(select_one_hot[i], (i & 2 ** j) == 1 ? select[j] : select_b[j]);
-            end
-        end
-    endgenerate
-
-    and input_and [2**N-1:0] (input_one_hot, inputs, select_one_hot);
-
-    generate
-        for (i=0; i<2**N; i=i+1) begin
-            or(out, input_one_hot[i]);
+        // Base case, select line is 1 bit, we choose between 2 inputs
+        if (N == 1) begin
+            wire select_b;
+            wire [1:0] masked_input;
+            
+            not (select_b, select[0]);
+            and (masked_input[1], inputs[1], select[0]);
+            and (masked_input[0], inputs[0], select_b);
+            or (out, masked_input[1], masked_input[0]);
+        end else begin
+        // Recursively instantiates 2 muxes with N-1 select bits, uses MSB of select to mux between the 2 muxes
+            wire select_msb_b;
+            wire [1:0] res;
+            wire [1:0] masked_res;
+            
+            not (select_msb_b, select[N-1]);
+            
+            mux_nbit #(.N(N-1)) upper_mux (
+                .inputs(inputs[2**N-1:2**(N-1)]),
+                .select(select[N-2:0]),
+                .out(res[1])
+            );
+            
+            mux_nbit #(.N(N-1)) lower_mux (
+                .inputs(inputs[2**(N-1)-1:0]),
+                .select(select[N-2:0]),
+                .out(res[0])
+            );
+            
+            and (masked_res[1], res[1], select[N-1]);
+            and (masked_res[0], res[0], select_msb_b);
+            or (out, masked_res[1], masked_res[0]);
         end
     endgenerate
 endmodule
