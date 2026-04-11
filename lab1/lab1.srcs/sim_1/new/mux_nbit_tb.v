@@ -32,16 +32,15 @@ module mux_nbit_tb;
     wire out;
     
     integer i;
-
     
-    mux_nbit #(.N(4)) mux (
+    mux_n_by_m #(.N(4), .M(1)) mux (
         .inputs(inputs),
         .select(select),
         .out(out)
     );
     
     initial begin
-        for (i = 0; i < 8; i = i + 1) begin
+        for (i = 0; i < 15; i = i + 1) begin
             #1
             select = select + 1;
         end
