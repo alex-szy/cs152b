@@ -26,7 +26,6 @@ module mux_n_by_m #(M=16, N=4) (
     output [M-1:0] out
     );
 
-    genvar i;
     // Recursive mux implementation
     generate
         // Base case, select line is 1 bit, we choose between 2 inputs
