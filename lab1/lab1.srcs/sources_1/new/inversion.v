@@ -28,7 +28,7 @@ module inversion(
     
     wire [15:0] A_bar;
     
-    not (A_bar, A);
+    not abar [15:0] (A_bar, A);
     
     increment inc (
         .A(A_bar),

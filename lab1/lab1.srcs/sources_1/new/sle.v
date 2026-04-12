@@ -29,13 +29,13 @@ module sle(
     wire [15:0] subtracted;
     wire overflow;
     
-    subtractor_16bit (
+    subtractor_16bit sub (
         .S(subtracted),
-        .A(A),
-        .B(B),
+        .A(B),
+        .B(A),
         .overflow(overflow)
     );
     
-    assign S[15:1] = 15'b0;
+    not s_zero_pad [14:0] (S[15:1], 15'h7FFF);
     xnor (S[0], overflow, subtracted[15]);
 endmodule
