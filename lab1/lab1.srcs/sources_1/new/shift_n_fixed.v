@@ -44,7 +44,7 @@ module shift_n_fixed #(
         end else begin
             // right shift
             for (i = 0; i < 16; i = i + 1) begin
-                if (i > 16 - shamt) begin
+                if (i >= 16 - shamt) begin
                     if (arith == 0) begin
                         // output zeros from MSB till shift position if logical, sign bit if arithmetic
                         buf (out[i], 0);

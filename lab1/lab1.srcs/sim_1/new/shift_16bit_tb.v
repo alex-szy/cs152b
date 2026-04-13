@@ -36,13 +36,13 @@ module shift_16bit_tb;
         .S(S_lshift)
     );
     
-    shift_16bit #(.lr(0), .arith(0)) rshifter_logical(
+    shift_16bit #(.lr(1), .arith(0)) rshifter_logical(
         .A(A),
         .B(B),
         .S(S_rshift_log)
     );
     
-    shift_16bit #(.lr(0), .arith(1)) rshifter_arith(
+    shift_16bit #(.lr(1), .arith(1)) rshifter_arith(
         .A(A),
         .B(B),
         .S(S_rshift_arith)
@@ -69,12 +69,15 @@ module shift_16bit_tb;
         B = 16'h8;
         #1
         `assert(S_lshift, 16'hbc00);
-        
+        `assert(S_rshift_log, 16'h008a);
+        `assert(S_rshift_arith, 16'hff8a);
         
         // B = 5
-        A = 16'h3abc;
+        A = 16'h8abc;
         B = 16'h5;
         #1
         `assert(S_lshift, 16'h5780);
+        `assert(S_rshift_log, 16'h0455);
+        `assert(S_rshift_arith, 16'hfc55);
     end
 endmodule

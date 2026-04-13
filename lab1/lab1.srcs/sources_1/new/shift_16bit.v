@@ -29,8 +29,12 @@ module shift_16bit #(
     output [15:0] S
     );
     
-    wire if_out_zero;
-    nor(if_out_zero, B[4], B[5], B[6], B[7], B[8], B[9], B[10], B[11], B[12], B[13], B[14], B[15]);
+    wire if_out_zero_or_sign, if_out_zero_or_sign_b;
+    or(if_out_zero_or_sign, B[4], B[5], B[6], B[7], B[8], B[9], B[10], B[11], B[12], B[13], B[14], B[15]);
+    not(if_out_zero_or_sign_b, if_out_zero_or_sign);
+    
+    wire [15:0] sign_extd;
+    assign sign_extd [15:0] = {16{A[15]}};
     
     // Intermediate shift results
     wire [79:0] int;
@@ -48,7 +52,6 @@ module shift_16bit #(
             buf sh_in [15:0] (shifter_input, int[(i+1)*16+15:(i+1)*16]);
             
             // Shifter output passed to top mux input
-            if (lr == 1)
             shift_n_fixed #(
                 .shamt(2**i),
                 .lr(lr),
@@ -72,5 +75,15 @@ module shift_16bit #(
         end
     endgenerate
     
-    and out [15:0] (S, int[15:0], if_out_zero);
+    generate
+        if (lr == 1 && arith == 1) begin
+            wire [15:0] S_1, S_2;
+            and out1 [15:0] (S_1, int[15:0], if_out_zero_or_sign_b);
+            and out2 [15:0] (S_2, sign_extd[15:0], if_out_zero_or_sign);
+            or out [15:0] (S, S_1, S_2);
+        end else begin
+            and out [15:0] (S, int[15:0], if_out_zero_or_sign_b);
+        end
+    endgenerate
+    
 endmodule
