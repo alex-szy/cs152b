@@ -79,5 +79,6 @@ module shift_16bit_tb;
         `assert(S_lshift, 16'h5780);
         `assert(S_rshift_log, 16'h0455);
         `assert(S_rshift_arith, 16'hfc55);
+        $finish;
     end
 endmodule

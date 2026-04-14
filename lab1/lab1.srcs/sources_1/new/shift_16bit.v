@@ -29,20 +29,30 @@ module shift_16bit #(
     output [15:0] S
     );
     
-    wire if_out_zero_or_sign, if_out_zero_or_sign_b;
-    or(if_out_zero_or_sign, B[4], B[5], B[6], B[7], B[8], B[9], B[10], B[11], B[12], B[13], B[14], B[15]);
-    not(if_out_zero_or_sign_b, if_out_zero_or_sign);
-    
-    wire [15:0] sign_extd;
-    assign sign_extd [15:0] = {16{A[15]}};
-    
     // Intermediate shift results
     wire [79:0] int;
     // Assign the initial value of the input
     buf initial_a [15:0] (int[79:64], A);
     
+    // Output of the 16-shifter
+    // Shift 16 bits if B >= 16
+    wire [15:0] overshift_out;
+    wire overshift;
+    or (overshift, B[4], B[5], B[6], B[7], B[8], B[9], B[10], B[11], B[12], B[13], B[14], B[15]);
+    shift_n_fixed #(
+        .shamt(16),
+        .lr(lr),
+        .arith(arith)
+    ) over_shift (
+        .in(int[79:64]),
+        .out(overshift_out)
+    );
+    
+    
     genvar i;
     generate
+        // Cascaded shifter. First shifter shifts 8 bits, 2nd shifts 4, 3rd shifts 2 and 4th shifts 1.
+        // Each stage is selected or bypassed depending on whether the corresponding bit in B is turned on.
         for (i = 3; i >= 0; i = i - 1) begin
             // Mux chooses between shifter output and unshifted input
             wire [31:0] shifter_mux_input;
@@ -75,15 +85,14 @@ module shift_16bit #(
         end
     endgenerate
     
-    generate
-        if (lr == 1 && arith == 1) begin
-            wire [15:0] S_1, S_2;
-            and out1 [15:0] (S_1, int[15:0], if_out_zero_or_sign_b);
-            and out2 [15:0] (S_2, sign_extd[15:0], if_out_zero_or_sign);
-            or out [15:0] (S, S_1, S_2);
-        end else begin
-            and out [15:0] (S, int[15:0], if_out_zero_or_sign_b);
-        end
-    endgenerate
+    // Final mux selects the overshifter or the cascaded shifter output
+    mux_n_by_m #(
+        .N(1),
+        .M(16)
+    ) output_mux (
+        .inputs({overshift_out, int[15:0]}),
+        .select(overshift),
+        .out(S)
+    );
     
 endmodule
