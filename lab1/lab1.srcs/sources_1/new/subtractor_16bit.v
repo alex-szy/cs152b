@@ -28,16 +28,20 @@ module subtractor_16bit(
     );
     
     wire [15:0] B_neg;
+    wire inv_overflow, add_overflow;
     
     inversion inv (
         .A(B),
-        .S(B_neg)
+        .S(B_neg),
+        .overflow(inv_overflow)
     );
     
     adder_16bit add (
         .S(S),
         .A(A),
         .B(B_neg),
-        .overflow(overflow)
+        .overflow(add_overflow)
     );
+    
+    xor (overflow, inv_overflow, add_overflow);
 endmodule

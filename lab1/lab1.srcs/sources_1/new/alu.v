@@ -97,8 +97,7 @@ module alu (
     sle sle (
         .A(A),
         .B(B),
-        .S(results_concat[159:144]),
-        .overflow(overflow_bits[0])
+        .S(results_concat[159:144])
     );
     buf (overflow_bits[9], 0);
     
