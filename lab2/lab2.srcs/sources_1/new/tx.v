@@ -25,6 +25,43 @@ module tx(
     input wire rst,
     input wire send,
     input wire [7:0] data,
-    output wire tx_line
+    output reg tx_line
     );
+    
+    reg [7:0] data_buf;
+    reg [3:0] sending;
+    
+    // Trigger for starting the send operation
+    always @ (posedge send) begin
+        if (sending == 0) begin
+            // Read data into buffer
+            data_buf <= data;
+            // Set the sending bit so the transmission can start
+            sending <= 1;
+        end
+    end
+    
+    // Clocked send
+    always @ (posedge clk) begin
+        if (sending == 0) begin
+            tx_line <= 1; // tx line high when idle
+        end else if (sending == 10) begin
+            // last bit
+            tx_line <= 1;
+            sending <= 0;
+        end else begin
+            sending <= sending + 1;
+            case (sending)
+                1: tx_line <= 0;
+                2: tx_line <= data_buf[0];
+                3: tx_line <= data_buf[1];
+                4: tx_line <= data_buf[2];
+                5: tx_line <= data_buf[3];
+                6: tx_line <= data_buf[4];
+                7: tx_line <= data_buf[5];
+                8: tx_line <= data_buf[6];
+                9: tx_line <= data_buf[7];
+            endcase
+        end
+    end
 endmodule
