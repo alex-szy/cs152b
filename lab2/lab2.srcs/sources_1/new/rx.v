@@ -27,12 +27,14 @@ module rx(
     output reg [7:0] data
     );
     
-    reg [3:0] state;
-    reg [7:0] buf_reg;
+    reg [3:0] state = 0;
+    reg [7:0] buf_reg = 0;
     
     always @(posedge clk) begin
-        if (state == 0 && rx_line == 0) begin
-            state <= 4'b1;
+        if (state == 0) begin
+            if (rx_line == 0) begin
+                state <= 4'b1;
+            end
         end else if (state == 9) begin
             if (rx_line == 1) begin
                 data <= buf_reg;
