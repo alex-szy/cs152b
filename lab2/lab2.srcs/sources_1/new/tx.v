@@ -25,26 +25,23 @@ module tx(
     input wire rst,
     input wire send,
     input wire [7:0] data,
-    output reg tx_line
+    output reg tx_line = 0
     );
     
-    reg [7:0] data_buf;
-    reg [3:0] sending;
-    
-    // Trigger for starting the send operation
-    always @ (posedge send) begin
-        if (sending == 0) begin
-            // Read data into buffer
-            data_buf <= data;
-            // Set the sending bit so the transmission can start
-            sending <= 1;
-        end
-    end
+    reg [7:0] data_buf = 0;
+    reg [3:0] sending = 0;
+    reg send_prev = 0;
     
     // Clocked send
     always @ (posedge clk) begin
         if (sending == 0) begin
             tx_line <= 1; // tx line high when idle
+            if (send && !send_prev) begin // posedge send
+                // Read data into buffer
+                data_buf <= data;
+                // Set the sending bit so the transmission can start
+                sending <= 1;
+            end
         end else if (sending == 10) begin
             // last bit
             tx_line <= 1;
