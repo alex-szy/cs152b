@@ -30,35 +30,45 @@ module tx(
     
     reg [7:0] data_buf = 0;
     reg [3:0] sending = 0;
-    reg send_prev = 0;
+    reg rst_reg = 0;
     
     // Clocked send
-    always @ (posedge clk) begin
-        if (sending == 0) begin
+    always @ (posedge clk or posedge rst) begin
+        if (rst) begin
+            rst_reg <= 1;
+        end else if (sending == 0) begin
             tx_line <= 1; // tx line high when idle
-            if (send && !send_prev) begin // posedge send
+            if (send && !rst_reg) begin // posedge send
                 // Read data into buffer
                 data_buf <= data;
                 // Set the sending bit so the transmission can start
                 sending <= 1;
             end
+            rst_reg <= 0;
         end else if (sending == 10) begin
-            // last bit
-            tx_line <= 1;
             sending <= 0;
+            if (rst_reg) begin
+                tx_line <= 0;
+            end else begin
+                tx_line <= 1; // last bit
+            end
         end else begin
             sending <= sending + 1;
-            case (sending)
-                1: tx_line <= 0;
-                2: tx_line <= data_buf[0];
-                3: tx_line <= data_buf[1];
-                4: tx_line <= data_buf[2];
-                5: tx_line <= data_buf[3];
-                6: tx_line <= data_buf[4];
-                7: tx_line <= data_buf[5];
-                8: tx_line <= data_buf[6];
-                9: tx_line <= data_buf[7];
-            endcase
+            if (rst_reg) begin
+                tx_line <= 0;
+            end else begin
+                case (sending)
+                    1: tx_line <= 0;
+                    2: tx_line <= data_buf[0];
+                    3: tx_line <= data_buf[1];
+                    4: tx_line <= data_buf[2];
+                    5: tx_line <= data_buf[3];
+                    6: tx_line <= data_buf[4];
+                    7: tx_line <= data_buf[5];
+                    8: tx_line <= data_buf[6];
+                    9: tx_line <= data_buf[7];
+                endcase
+            end
         end
     end
 endmodule

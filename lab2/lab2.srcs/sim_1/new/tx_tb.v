@@ -77,6 +77,20 @@ module tx_tb();
         send = 0;
         
         #110
+        
+        // Test Case 5: Send 0x55 (8'b01010101) but with rst between 3rd and 4th byte
+        // Expected: Start(0), 1, 0, 1, 0, 0, 0, 0, 0, Stop(0) for invalidation
+        data = 8'h55;
+        send = 1;
+        #20
+        send = 0;
+        
+        // Wait for transmission to complete (approx 11 cycles)
+        #40
+        rst = 1;
+        #20
+        rst = 0;
+        #50
 
         $display("Simulation complete.");
         $finish;
