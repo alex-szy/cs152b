@@ -91,6 +91,15 @@ module tx_tb();
         #20
         rst = 0;
         #50
+        
+        // Test Case 6: Send 0x77 after the reset
+        #100
+        data = 8'h77;
+        send = 1;
+        #20
+        send = 0;
+        
+        #110
 
         $display("Simulation complete.");
         $finish;

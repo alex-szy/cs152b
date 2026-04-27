@@ -30,8 +30,11 @@ module rx(
     reg [3:0] state = 0;
     reg [7:0] buf_reg = 0;
     
-    always @(posedge clk) begin
-        if (state == 0) begin
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            state <= 0;
+            data <= 0;
+        end else if (state == 0) begin
             if (rx_line == 0) begin
                 state <= 4'b1;
             end
