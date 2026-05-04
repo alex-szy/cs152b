@@ -60,7 +60,12 @@ module tx_tb();
         #20
         send = 0;
         
-        #110
+        // Send line goes high again midway through transmission
+        #55
+        send = 1;
+        #20
+        send = 0;
+        #35
 
         // Test Case 3: Send 0x 00
         data = 8'h00;
