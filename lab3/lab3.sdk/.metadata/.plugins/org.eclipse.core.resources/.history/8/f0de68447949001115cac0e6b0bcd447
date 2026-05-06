@@ -1,0 +1,21 @@
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+#include "unistd.h"
+
+int main()
+{
+	char buf[0x10];
+	while (1) {
+		xil_printf("Please enter a number. \n\r");
+		read(0, buf, 0x10);
+
+		xil_printf("%s", buf);
+	}
+}

@@ -1,0 +1,51 @@
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+#include "unistd.h"
+#include <stdlib.h>
+
+int main()
+{
+	char buf[0x10];
+	int a, b, a_times_b;
+	int bytes;
+	XGpio gpio;
+	u32 led;
+
+	XGpio_Initialize(&gpio, 0);
+
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000); // set LED GPIO channel tristates to All Output
+
+
+
+	while (1) {
+		xil_printf("Please enter a number. \n\r");
+		bytes = read(0, buf, 0x10);
+		if (bytes <= 0)
+			continue;
+		a = atoi(buf);
+		xil_printf("%d\n\r", a);
+
+		xil_printf("Please enter another number. \n\r");
+		bytes = read(0, buf, 0x10);
+		if (bytes <= 0)
+			continue;
+		b = atoi(buf);
+		xil_printf("%d\n\r", b);
+
+		a_times_b = a * b;
+		xil_printf("%d times %d is %d\n\r", a, b, a_times_b);
+		if (a_times_b >= 100)
+			led = 0xFFFFFFFF;
+		else
+			led = 0x00000000;
+
+		XGpio_DiscreteWrite(&gpio, 2, led);
+	}
+}
