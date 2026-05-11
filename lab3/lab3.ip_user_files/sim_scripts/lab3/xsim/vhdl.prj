@@ -1,0 +1,13 @@
+vhdl xil_defaultlib  \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_axi_gpio_0_0/sim/lab3_axi_gpio_0_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_axi_uartlite_0_0/sim/lab3_axi_uartlite_0_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_microblaze_0_0/sim/lab3_microblaze_0_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_mdm_1_0/sim/lab3_mdm_1_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_rst_clk_wiz_0_100M_0/sim/lab3_rst_clk_wiz_0_100M_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_dlmb_v10_0/sim/lab3_dlmb_v10_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_ilmb_v10_0/sim/lab3_ilmb_v10_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_dlmb_bram_if_cntlr_0/sim/lab3_dlmb_bram_if_cntlr_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_ilmb_bram_if_cntlr_0/sim/lab3_ilmb_bram_if_cntlr_0.vhd" \
+"../../../../lab3.srcs/sources_1/bd/lab3/ip/lab3_PmodKYPD_0_0/src/PmodKYPD_axi_gpio_0_0/sim/PmodKYPD_axi_gpio_0_0.vhd" \
+
+nosort

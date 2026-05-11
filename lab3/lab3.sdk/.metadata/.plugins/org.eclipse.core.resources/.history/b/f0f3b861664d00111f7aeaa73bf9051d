@@ -1,0 +1,100 @@
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+//Pmod keypad driver
+#include "PmodKYPD.h"
+
+#include "unistd.h"
+#include <stdlib.h>
+
+PmodKYPD myDevice;
+
+// keytable is determined as follows (indices shown in Keypad position below)
+// 12 13 14 15
+// 8  9  10 11
+// 4  5  6  7
+// 0  1  2  3
+#define DEFAULT_KEYTABLE "0FED789C456B123A"
+
+void InitializeKY() {
+}
+
+void DemoRun() {
+   u16 keystate;
+   XStatus status, last_status = KYPD_NO_KEY;
+   u8 key, last_key = 'x';
+   // Initial value of last_key cannot be contained in loaded KEYTABLE string
+
+   Xil_Out32(myDevice.GPIO_addr, 0xF);
+
+   xil_printf("Pmod KYPD demo started. Press any key on the Keypad.\r\n");
+   while (1) {
+      // Capture state of each key
+      keystate = KYPD_getKeyStates(&myDevice);
+
+      // Determine which single key is pressed, if any
+      status = KYPD_getKeyPressed(&myDevice, keystate, &key);
+
+      // Print key detect if a new key is pressed or if status has changed
+      if (status == KYPD_SINGLE_KEY
+            && (status != last_status || key != last_key)) {
+         xil_printf("Key Pressed: %c\r\n", (char) key);
+         last_key = key;
+      } else if (status == KYPD_MULTI_KEY && status != last_status)
+         xil_printf("Error: Multiple keys pressed\r\n");
+
+      last_status = status;
+
+      usleep(1000);
+   }
+}
+
+int main()
+{
+	char hands[] = {};
+	char buf[0x10];
+	int a, b, a_times_b;
+	int bytes;
+	XGpio gpio;
+	u32 led;
+
+	XGpio_Initialize(&gpio, 0);
+
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000); // set LED GPIO channel tristates to All Output
+
+	// Initialize keypad
+	KYPD_begin(&myDevice, XPAR_PMODKYPD_0_AXI_LITE_GPIO_BASEADDR);
+	KYPD_loadKeyTable(&myDevice, (u8*) DEFAULT_KEYTABLE);
+
+	while (1) {
+		xil_printf("Player 1, PC, input (0 scissors, 1 rock, 2 paper): \n\r");
+		bytes = read(0, buf, 0x10);
+		if (bytes <= 0)
+			continue;
+
+		a = atoi(strtok(buf, ","));
+
+		xil_printf("Player 2, FPGA input (0 scissors, 1 rock, 2 paper): \n\r");
+				bytes = read(0, buf, 0x10);
+				if (bytes <= 0)
+					continue;
+
+				a = atoi(strtok(buf, ","));
+		b = atoi(strtok(NULL, ","));
+
+		a_times_b = a * b;
+		xil_printf("%d times %d is %d\n\r", a, b, a_times_b);
+		if (a_times_b > 100)
+			led = 0xFFFFFFFF;
+		else
+			led = 0x00000000;
+
+		XGpio_DiscreteWrite(&gpio, 2, led);
+	}
+}

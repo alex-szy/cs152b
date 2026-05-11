@@ -1,0 +1,82 @@
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+//Pmod keypad driver
+#include "PmodKYPD.h"
+
+#include "unistd.h"
+#include <stdlib.h>
+
+// keytable is determined as follows (indices shown in Keypad position below)
+// 12 13 14 15
+// 8  9  10 11
+// 4  5  6  7
+// 0  1  2  3
+#define DEFAULT_KEYTABLE "0FED789C456B123A"
+
+int main()
+{
+	char* hands[3] = {"scissors", "rock", "paper"};
+	char buf[0x10];
+	int a, b;
+	int bytes;
+	XGpio gpio;
+	u32 led;
+
+	PmodKYPD myDevice;
+	u16 keystate;
+	XStatus status;
+	char key;
+
+	// Initialize keypad
+	KYPD_begin(&myDevice, XPAR_PMODKYPD_0_AXI_LITE_GPIO_BASEADDR);
+	KYPD_loadKeyTable(&myDevice, (u8*) DEFAULT_KEYTABLE);
+	Xil_Out32(myDevice.GPIO_addr, 0xF);
+
+	XGpio_Initialize(&gpio, 0);
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000); // set LED GPIO channel tristates to All Output
+
+	while (1) {
+		xil_printf("Player 1, PC, input (0 scissors, 1 rock, 2 paper): \n\r");
+		bytes = read(0, buf, 0x10);
+		if (bytes <= 0)
+			continue;
+
+		a = atoi(strtok(buf, ","));
+
+		xil_printf("Player 2, FPGA input (0 scissors, 1 rock, 2 paper): \n\r");
+		while (1) {
+			// Capture state of each key
+			keystate = KYPD_getKeyStates(&myDevice);
+
+			// Determine which single key is pressed, if any
+			status = KYPD_getKeyPressed(&myDevice, keystate, &key);
+
+			// Print key detect if a new key is pressed or if status has changed
+			if (status == KYPD_SINGLE_KEY) {
+				b = key - 48;
+				break;
+			}
+			usleep(1000);
+		}
+
+		if (a == b) {
+
+		}
+
+		a_times_b = a * b;
+		xil_printf("%d times %d is %d\n\r", a, b, a_times_b);
+		if (a_times_b > 100)
+			led = 0xFFFFFFFF;
+		else
+			led = 0x00000000;
+
+		XGpio_DiscreteWrite(&gpio, 2, led);
+	}
+}

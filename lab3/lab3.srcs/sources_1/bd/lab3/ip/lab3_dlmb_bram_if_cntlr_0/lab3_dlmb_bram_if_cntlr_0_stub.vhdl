@@ -1,10 +1,10 @@
 -- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
--- Date        : Wed May  6 10:58:56 2026
+-- Date        : Mon May 11 11:03:18 2026
 -- Host        : CS152B-08 running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               c:/Users/Student/Desktop/cs152b/lab3/lab3.srcs/sources_1/bd/lab3/ip/lab3_dlmb_bram_if_cntlr_0/lab3_dlmb_bram_if_cntlr_0_stub.vhdl
+--               C:/Users/Student/Desktop/cs152b/lab3/lab3.srcs/sources_1/bd/lab3/ip/lab3_dlmb_bram_if_cntlr_0/lab3_dlmb_bram_if_cntlr_0_stub.vhdl
 -- Design      : lab3_dlmb_bram_if_cntlr_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tcpg236-1
