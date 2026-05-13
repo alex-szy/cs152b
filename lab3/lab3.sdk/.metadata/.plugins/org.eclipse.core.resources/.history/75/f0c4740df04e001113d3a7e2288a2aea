@@ -20,9 +20,9 @@
 // 0  1  2  3
 #define DEFAULT_KEYTABLE "0FED789C456B123A"
 
-char validateNum(int n) {
-	if (n >= 0 && n <= 2) return 1;
-	return 0;
+bool validateNum(int n) {
+	if (n >= 0 && n <= 2) return true;
+	return false;
 }
 
 int main()
@@ -43,6 +43,9 @@ int main()
 	KYPD_begin(&myDevice, XPAR_PMODKYPD_0_AXI_LITE_GPIO_BASEADDR);
 	KYPD_loadKeyTable(&myDevice, (u8*) DEFAULT_KEYTABLE);
 	Xil_Out32(myDevice.GPIO_addr, 0xF);
+
+	XGpio_Initialize(&gpio, 0);
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000); // set LED GPIO channel tristates to All Output
 
 	while (1) {
 		xil_printf("Player 1, PC, input (0 scissors, 1 rock, 2 paper): \n\r");
@@ -75,21 +78,30 @@ int main()
 
 		if (a == b) {
 			xil_printf("Draw! PC: %s, FPGA: %s \n\r", hands[a], hands[b]);
-		} else if (a == 0) {
+		} else if (a == 0) { // one of them is 0, one is 2
 			switch (b) {
-			case 1: xil_printf("FPGA wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
-			case 2: xil_printf("PC wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
+			case 1: xil_printf("FPGA wins! PC: %s, FPGA %s \n\r", hands[a], hands[b]);
+			case 2: break;
 			}
 		} else if (a == 1) {
 			switch (b) {
-			case 0: xil_printf("PC wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
-			case 2: xil_printf("FPGA wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
+			case 1: break;
+			case 2: break;
 			}
 		} else {
 			switch (b) {
-			case 0: xil_printf("FPGA wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
-			case 1: xil_printf("PC wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
+			case 1: break;
+			case 2: break;
 			}
 		}
+
+		a_times_b = a * b;
+		xil_printf("%d times %d is %d\n\r", a, b, a_times_b);
+		if (a_times_b > 100)
+			led = 0xFFFFFFFF;
+		else
+			led = 0x00000000;
+
+		XGpio_DiscreteWrite(&gpio, 2, led);
 	}
 }

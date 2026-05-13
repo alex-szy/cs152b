@@ -20,9 +20,9 @@
 // 0  1  2  3
 #define DEFAULT_KEYTABLE "0FED789C456B123A"
 
-char validateNum(int n) {
-	if (n >= 0 && n <= 2) return 1;
-	return 0;
+bool validateNum(int n) {
+	if (n >= 0 && n <= 2) return true;
+	return false;
 }
 
 int main()
@@ -87,8 +87,8 @@ int main()
 			}
 		} else {
 			switch (b) {
-			case 0: xil_printf("FPGA wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
-			case 1: xil_printf("PC wins! PC: %s, FPGA: %s \n\r", hands[a], hands[b]); break;
+			case 1: break;
+			case 2: break;
 			}
 		}
 	}

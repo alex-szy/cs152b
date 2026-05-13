@@ -67,32 +67,14 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_dlmb_v10_0/lab3_dlmb_v10_0.xci">
-          <Proxy FileSetName="lab3_dlmb_v10_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_xbar_0/lab3_xbar_0.xci">
-          <Proxy FileSetName="lab3_xbar_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_ilmb_bram_if_cntlr_0/lab3_ilmb_bram_if_cntlr_0.xci">
-          <Proxy FileSetName="lab3_ilmb_bram_if_cntlr_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_PmodKYPD_0_0/lab3_PmodKYPD_0_0.xci">
-          <Proxy FileSetName="lab3_PmodKYPD_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_axi_gpio_0_0/lab3_axi_gpio_0_0.xci">
           <Proxy FileSetName="lab3_axi_gpio_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_rst_clk_wiz_0_100M_0/lab3_rst_clk_wiz_0_100M_0.xci">
-          <Proxy FileSetName="lab3_rst_clk_wiz_0_100M_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_ilmb_v10_0/lab3_ilmb_v10_0.xci">
-          <Proxy FileSetName="lab3_ilmb_v10_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_clk_wiz_0_0/lab3_clk_wiz_0_0.xci">
           <Proxy FileSetName="lab3_clk_wiz_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_lmb_bram_0/lab3_lmb_bram_0.xci">
-          <Proxy FileSetName="lab3_lmb_bram_0"/>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_axi_uartlite_0_0/lab3_axi_uartlite_0_0.xci">
+          <Proxy FileSetName="lab3_axi_uartlite_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_mdm_1_0/lab3_mdm_1_0.xci">
           <Proxy FileSetName="lab3_mdm_1_0"/>
@@ -100,11 +82,29 @@
         <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_microblaze_0_0/lab3_microblaze_0_0.xci">
           <Proxy FileSetName="lab3_microblaze_0_0"/>
         </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_rst_clk_wiz_0_100M_0/lab3_rst_clk_wiz_0_100M_0.xci">
+          <Proxy FileSetName="lab3_rst_clk_wiz_0_100M_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_dlmb_v10_0/lab3_dlmb_v10_0.xci">
+          <Proxy FileSetName="lab3_dlmb_v10_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_xbar_0/lab3_xbar_0.xci">
+          <Proxy FileSetName="lab3_xbar_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_ilmb_v10_0/lab3_ilmb_v10_0.xci">
+          <Proxy FileSetName="lab3_ilmb_v10_0"/>
+        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_dlmb_bram_if_cntlr_0/lab3_dlmb_bram_if_cntlr_0.xci">
           <Proxy FileSetName="lab3_dlmb_bram_if_cntlr_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_axi_uartlite_0_0/lab3_axi_uartlite_0_0.xci">
-          <Proxy FileSetName="lab3_axi_uartlite_0_0"/>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_ilmb_bram_if_cntlr_0/lab3_ilmb_bram_if_cntlr_0.xci">
+          <Proxy FileSetName="lab3_ilmb_bram_if_cntlr_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_lmb_bram_0/lab3_lmb_bram_0.xci">
+          <Proxy FileSetName="lab3_lmb_bram_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="lab3.bd" FileRelPathName="ip/lab3_PmodKYPD_0_0/lab3_PmodKYPD_0_0.xci">
+          <Proxy FileSetName="lab3_PmodKYPD_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/lab3/hdl/lab3_wrapper.v">
